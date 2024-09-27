@@ -1,0 +1,12 @@
+{
+  "attribute": [
+    {
+      "name": "name",
+      "value": "value"
+    },
+    {
+      "name": "name2",
+      "value": "value2"
+    }
+  ]
+}

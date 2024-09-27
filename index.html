@@ -1,16 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Lit + TS</title>
-    <link rel="stylesheet" href="./src/index.css" />
-    <script type="module" src="/src/my-element.ts"></script>
+    <title>Admin elements</title>
+    <script type="module" src="/src/index.ts"></script>
+    <script>
+      window.onload = () => {
+        /**
+         * An example element.
+         */
+        class MyElement extends window.lit.signal.SignalWatcher(window.lit.LitElement) {
+          static get properties() {
+            return {
+              /**
+               * Copy for the read the docs hint.
+               */
+              signal: { type: String },
+            };
+          }
+
+          render() {
+            const data = window[this.signal].value;
+
+            return data ? window.lit.map(
+              data['attribute'],
+              (item) => window.lit.html`
+                <p>${item["name"]}</p>
+                <p>${item["value"]}</p>
+              `
+            ) : window.lit.html`<p>No data</p>`;
+          }
+
+          static get styles() {
+            return window.lit.css`
+    p {
+      background-color: #f1f1f1;
+    `;
+          }
+        }
+
+        window.customElements.define("my-element", MyElement);
+      };
+    </script>
   </head>
   <body>
-    <my-element>
-      <h1>Vite + Lit</h1>
-    </my-element>
+    <admin-fetch url="data/list.json" signal="data">
+      <my-element slot="content" signal="data"></my-element>
+    </admin-fetch>
   </body>
 </html>
