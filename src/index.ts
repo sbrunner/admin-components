@@ -20,12 +20,16 @@ import { until } from "lit/directives/until.js";
 import { asyncAppend } from "lit/directives/async-append.js";
 import { asyncReplace } from "lit/directives/async-replace.js";
 import list from "./fetch.js";
+import Element from "./element.js";
 
 import { SignalWatcher, signal } from "@lit-labs/preact-signals";
 
 // To force to be included in the bundle
 console.log(list);
 
+window.admin = {
+  Element,
+};
 window.lit = {
   LitElement,
   css,

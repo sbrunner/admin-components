@@ -9,18 +9,9 @@
         /**
          * An example element.
          */
-        class MyElement extends window.lit.signal.SignalWatcher(window.lit.LitElement) {
-          static get properties() {
-            return {
-              /**
-               * Copy for the read the docs hint.
-               */
-              signal: { type: String },
-            };
-          }
-
+        class MyElement extends window.admin.Element {
           render() {
-            const data = window[this.signal].value;
+            const data = this.getSignal().value;
 
             return data ? window.lit.map(
               data['attribute'],
