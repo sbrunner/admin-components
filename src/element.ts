@@ -1,4 +1,3 @@
-import { SignalWatcher } from "@lit-labs/preact-signals";
 import { LitElement } from "lit";
 import { property } from "lit/decorators.js";
 import { SignalWatcher } from "@lit-labs/preact-signals";

@@ -15,6 +15,7 @@ export function getSignal(signalName: string) {
 export enum State {
     Initial = "initial",
     Loading = "loading",
+    Reloading = "reloading",
     Loaded = "loaded",
     Error = "error",
   }

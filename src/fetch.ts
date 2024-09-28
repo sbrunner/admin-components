@@ -66,12 +66,14 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
 
     this.unused = computed(() => {
+      this.stateSignal.value = State.Reloading;
       doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
       return this.triggerSignal.value;
     });
 
     if (this.interval > 0) {
       setInterval(() => {
+        this.stateSignal.value = State.Reloading;
         doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
       }, this.interval);
     }

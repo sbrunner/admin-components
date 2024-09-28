@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { SignalWatcher } from "@lit-labs/preact-signals";
-import { getSignal, doFetch } from "./utils";
+import { getSignal, doFetch, State } from "./utils";
 import { unsafeHTML, UnsafeHTMLDirective } from "lit/directives/unsafe-html.js";
 import { DirectiveResult } from "lit/async-directive.js";
 
@@ -9,7 +9,7 @@ import { DirectiveResult } from "lit/async-directive.js";
  * Fetch data from a URL and store it in a signal.
  */
 @customElement("admin-link")
-export default class AdminFetch extends SignalWatcher(LitElement) {
+export default class Link extends SignalWatcher(LitElement) {
   @property({ attribute: "admin-href" })
   href: string = "#";
   @property({ attribute: "admin-class" })
@@ -21,9 +21,12 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   data: string = "";
   @property()
   emit: string = "";
+  @property()
+  state: string = '';
 
   dataSignal: any;
   emitSignal: any;
+  stateSignal: any;
   innerContent: DirectiveResult<typeof UnsafeHTMLDirective> = html``;
 
   connectedCallback() {
@@ -31,6 +34,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
 
     this.dataSignal = getSignal(this.data);
     this.emitSignal = getSignal(this.emit);
+    this.stateSignal = getSignal(this.state);
     this.innerContent = unsafeHTML(this.innerHTML);
     this.innerHTML = "";
   }
@@ -44,7 +48,8 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     if (this.href === "#") {
       this.emitSignal.value = this.emitSignal.value + 1;
     } else {
-      doFetch(this.href, this.dataSignal, this.emitSignal);
+      this.stateSignal.value = State.Loading;
+      doFetch(this.href, this.dataSignal, this.emitSignal, this.stateSignal);
     }
   }
 

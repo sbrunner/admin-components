@@ -21,12 +21,13 @@ import { asyncAppend } from "lit/directives/async-append.js";
 import { asyncReplace } from "lit/directives/async-replace.js";
 import fetch from "./fetch.js";
 import link from "./link.js";
+import spinner from "./status.js";
 import Element from "./element.js";
 
 import { SignalWatcher, signal } from "@lit-labs/preact-signals";
 
 // To force to be included in the bundle
-console.log(fetch, link);
+console.log(fetch, link, spinner);
 
 window.admin = {
   Element,

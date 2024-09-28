@@ -69,37 +69,49 @@
   <body>
     <h2>Just fetch</h2>
     Just fetch an URL and display the content.
-    <admin-fetch url="data/list.json" data="data1">
+    <admin-status state="state1"></admin-status>
+    <admin-fetch url="data/list.json" data="data1" state="state1">
       <my-element slot="content" data="data1"></my-element>
     </admin-fetch>
 
     <h2>Fetch regularly</h2>
     Fetch an URL every 10s and display the content.
-    <admin-fetch url="data/list.json" data="data1" interval="10000">
+    <admin-status state="state2"></admin-status>
+    <admin-fetch url="data/list.json" data="data1" interval="10000" state="state2">
       <my-element slot="content" data="data1"></my-element>
     </admin-fetch>
 
     <h2>With a refresh button</h2>
-    <admin-link href="data/action.json" emit="event3" admin-class="btn btn-primary" admin-role="button"
+    <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button"
       >Reload</admin-link
-    >
-    <admin-fetch url="data/list.json" trigger="event3" data="data3">
+    ><admin-status state="state3"></admin-status>
+    <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
       <my-element slot="content" data="data3"></my-element>
     </admin-fetch>
 
     <h2>With an link that do an action and trigger a refresh</h2>
     <admin-link
-      href="data/action.json"
       emit="event4"
+      state="state4a"
       admin-class="btn btn-primary"
       admin-href="data/action.json"
       admin-role="button"
       >Do <b>an</b> action</admin-link
-    >
-    <admin-fetch url="data/list.json" trigger="event4" data="data4">
+    >Action: <admin-status state="state4a"></admin-status> Data: <admin-status state="state4d"></admin-status>
+    <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d">
       <my-element slot="content" data="data4"></my-element>
     </admin-fetch>
 
     <h2>With a form that do an action and trigger a refresh</h2>
+
+    <h2>With an link on error</h2>
+    <admin-link
+      state="state6"
+      admin-class="btn btn-primary"
+      admin-href="error/action.json"
+      admin-role="button"
+      >Do an error</admin-link
+    >
+    <admin-status state="state6"></admin-status>
   </body>
 </html>
