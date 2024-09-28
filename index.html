@@ -75,13 +75,12 @@
 
     <h2>Fetch regularly</h2>
     Fetch an URL every 10s and display the content.
+    <admin-fetch url="data/list.json" data="data1" interval="10000">
+      <my-element slot="content" data="data1"></my-element>
+    </admin-fetch>
 
     <h2>With a refresh button</h2>
-    <admin-link
-      href="data/action.json"
-      emit="event3"
-      admin-class="btn btn-primary"
-      admin-role="button"
+    <admin-link href="data/action.json" emit="event3" admin-class="btn btn-primary" admin-role="button"
       >Reload</admin-link
     >
     <admin-fetch url="data/list.json" trigger="event3" data="data3">

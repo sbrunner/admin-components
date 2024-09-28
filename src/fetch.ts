@@ -38,6 +38,12 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   @property()
   state: string = "";
 
+  /**
+   * Time interval to fetch data [milliseconds].
+   */
+  @property()
+  interval: number = -1;
+
   emitSignal: any;
   triggerSignal: any;
   dataSignal: any;
@@ -63,6 +69,12 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
       doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
       return this.triggerSignal.value;
     });
+
+    if (this.interval > 0) {
+      setInterval(() => {
+        doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+      }, this.interval);
+    }
   }
 
   render() {
