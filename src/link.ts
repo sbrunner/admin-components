@@ -11,7 +11,7 @@ import { DirectiveResult } from "lit/async-directive.js";
 @customElement("admin-link")
 export default class AdminFetch extends SignalWatcher(LitElement) {
   @property({ attribute: "admin-href" })
-  href: string = "";
+  href: string = "#";
   @property({ attribute: "admin-class" })
   class: string = "";
   @property({ attribute: "admin-role" })
@@ -29,10 +29,6 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   connectedCallback() {
     super.connectedCallback();
 
-    if (!this.href) {
-      throw new Error("href is required");
-    }
-
     this.dataSignal = getSignal(this.data);
     this.emitSignal = getSignal(this.emit);
     this.innerContent = unsafeHTML(this.innerHTML);
@@ -45,8 +41,11 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
 
   handleClick(event: Event) {
     event.preventDefault();
-
-    doFetch(this.href, this.dataSignal, this.emitSignal);
+    if (this.href === "#") {
+      this.emitSignal.value = this.emitSignal.value + 1;
+    } else {
+      doFetch(this.href, this.dataSignal, this.emitSignal);
+    }
   }
 
   render() {

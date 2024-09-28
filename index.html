@@ -31,12 +31,15 @@
       a:hover {
         text-decoration: underline;
       }
+      a:hover[role="button"] {
+        text-decoration: none;
+      }
     </style>
     <script type="module" src="/src/index.ts"></script>
     <script>
       /* For dark mode */
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-bs-theme', 'dark');
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
       }
 
       window.onload = () => {
@@ -69,14 +72,35 @@
     <admin-fetch url="data/list.json" data="data1">
       <my-element slot="content" data="data1"></my-element>
     </admin-fetch>
+
     <h2>Fetch regularly</h2>
     Fetch an URL every 10s and display the content.
+
     <h2>With a refresh button</h2>
+    <admin-link
+      href="data/action.json"
+      emit="event3"
+      admin-class="btn btn-primary"
+      admin-role="button"
+      >Reload</admin-link
+    >
+    <admin-fetch url="data/list.json" trigger="event3" data="data3">
+      <my-element slot="content" data="data3"></my-element>
+    </admin-fetch>
+
     <h2>With an link that do an action and trigger a refresh</h2>
-    <admin-link href="data/action.json" emit="event4" admin-class="btn btn-primary" admin-href="data/action.json" admin-role="button">Do <b>an</b> action</admin-link>
+    <admin-link
+      href="data/action.json"
+      emit="event4"
+      admin-class="btn btn-primary"
+      admin-href="data/action.json"
+      admin-role="button"
+      >Do <b>an</b> action</admin-link
+    >
     <admin-fetch url="data/list.json" trigger="event4" data="data4">
       <my-element slot="content" data="data4"></my-element>
     </admin-fetch>
+
     <h2>With a form that do an action and trigger a refresh</h2>
   </body>
 </html>
