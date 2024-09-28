@@ -11,23 +11,20 @@
          */
         class MyElement extends window.admin.Element {
           render() {
-            const data = this.getSignal().value;
+            console.log("elem");
+            console.log(this.dataSignal);
+            console.log(this.dataSignal.value);
+            const data = this.dataSignal.value;
 
-            return data ? window.lit.map(
-              data['attribute'],
-              (item) => window.lit.html`
+            return data
+              ? window.lit.map(
+                  data["attribute"],
+                  (item) => window.lit.html`
                 <p>${item["name"]}</p>
                 <p>${item["value"]}</p>
               `
-            ) : window.lit.html`<p>No data</p>`;
-          }
-
-          static get styles() {
-            return window.lit.css`
-          p {
-            background-color: #f1f1f1;
-          }
-    `;
+                )
+              : window.lit.html`<p>No data</p>`;
           }
         }
 
@@ -36,8 +33,8 @@
     </script>
   </head>
   <body>
-    <admin-fetch url="data/list.json" signal="data">
-      <my-element slot="content" signal="data"></my-element>
+    <admin-fetch url="data/list.json" data="data">
+      <my-element slot="content" data="data"></my-element>
     </admin-fetch>
   </body>
 </html>

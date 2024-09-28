@@ -1,37 +1,68 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import {signal} from '@lit-labs/preact-signals';
+import { customElement, property } from "lit/decorators.js";
+import {  SignalWatcher } from "@lit-labs/preact-signals";
+import { getSignal } from "./utils";
 
 enum State {
-  Initial,
-  Loading,
-  Loaded,
-  Error,
+  Initial = "initial",
+  Loading = "loading",
+  Loaded = "loaded",
+  Error = "error",
 }
 /**
- * An list element.
+ * Fetch data from a URL and store it in a signal.
  */
 @customElement("admin-fetch")
-export default class AdminFetch extends LitElement {
+export default class AdminFetch extends SignalWatcher(LitElement) {
   /**
-   * Copy for the read the docs hint.
+   * URL to fetch data from.
    */
   @property()
   url: string = "";
 
+  /**
+   * Signal name of a counter to be notified on a successful fetch.
+   */
   @property()
-  signal: string = "";
+  emitter: string = "";
 
-  @state()
-  state: State = State.Initial;
+  /**
+   * Signal name of a counter to trigger a fetch.
+   */
+  @property()
+  trigger: string = "";
+
+  /**
+   * Signal name of the fetched data.
+   */
+  @property()
+  data: string = "";
+
+  /**
+   * Signal name of the state of the fetch.
+   */
+  @property()
+  state: string = "";
+
+  emitterSignal: any;
+  triggerSignal: any;
+  dataSignal: any;
+  stateSignal: any;
 
   connectedCallback() {
     super.connectedCallback();
-    if (window[this.signal] === undefined) {
-      window[this.signal] = signal();
-    };
 
-    this.state = State.Loading;
+    if (!this.url) {
+      throw new Error("url is required");
+    }
+
+    this.emitterSignal = getSignal(this.emitter);
+    this.triggerSignal = getSignal(this.trigger);
+    this.triggerSignal.value = 0;
+    this.dataSignal = getSignal(this.data);
+    this.stateSignal = getSignal(this.state);
+    this.stateSignal.value = State.Loading;
+
     fetch(this.url).then(
       (response) => {
         if (!response.ok) {
@@ -40,28 +71,29 @@ export default class AdminFetch extends LitElement {
         } else {
           response.json().then(
             (data) => {
-              window[this.signal].value = data;
-              this.state = State.Loaded;
+              this.dataSignal.value = data;
+              this.stateSignal.value = State.Loaded;
+              this.triggerSignal.value = this.triggerSignal.value + 1;
             },
             (error) => {
               console.error("Error on parsing", error);
-              this.state = State.Error;
+              this.stateSignal.value = State.Error;
             }
           );
         }
       },
       (error) => {
         console.error("Error on fetching", error);
-        this.state = State.Error;
+        this.stateSignal.value = State.Error;
       }
     );
   }
 
   render() {
-    if (this.state === State.Error) {
+    if (this.stateSignal.value === State.Error) {
       return html`<div>Error</div>`;
     }
-    if (this.state === State.Loading) {
+    if (this.stateSignal.value === State.Loading) {
       return html`<div>Loading</div>`;
     }
     return html`<slot name="content"></slot>`;
