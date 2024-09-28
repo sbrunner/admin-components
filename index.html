@@ -34,6 +34,9 @@
       a:hover[role="button"] {
         text-decoration: none;
       }
+      .form-control {
+        margin-bottom: 0.5rem;
+      }
     </style>
     <script type="module" src="/src/index.ts"></script>
     <script>
@@ -60,47 +63,95 @@
               : window.lit.html`<p>No data</p>`;
           }
         }
-
         window.customElements.define("my-element", MyElement);
+
+        /**
+         * A form element.
+         */
+        class MyForm extends window.admin.Form {
+          render() {
+            console.log(555555);
+            return window.lit.html`
+        <form action="data/action.json" @submit="${this.handleSubmit}">
+        <input type="text" class="form-control" name="name" placeholder="Name" />
+        <input type="text" class="form-control" name="value" placeholder="Value" />
+        <button type="submit" class="btn btn-primary">
+          <admin-status .state="${this.stateSignal}"></admin-status> Submit
+        </button>
+      </form>
+      `;
+          }
+        }
+        window.customElements.define("my-form", MyForm);
+
+        /**
+         * A form element error.
+         */
+        class MyFormError extends window.admin.Form {
+          render() {
+            return window.lit.html`
+        <form action="data/error.json" @submit="${this.handleSubmit}">
+        <input type="text" class="form-control" name="name" placeholder="Name" />
+        <input type="text" class="form-control" name="value" placeholder="Value" />
+        <button type="submit" class="btn btn-primary">
+          <admin-status .state="${this.stateSignal}"></admin-status> Submit
+        </button>
+      </form>
+      `;
+          }
+        }
+        window.customElements.define("my-form-error", MyFormError);
       };
     </script>
   </head>
   <body>
-    <h2>Just fetch</h2>
-    Just fetch an URL and display the content.
-    <admin-status state="state1"></admin-status>
-    <admin-fetch url="data/list.json" data="data1" state="state1">
-      <my-element slot="content" data="data1"></my-element>
-    </admin-fetch>
+    <div class="container-fluid">
+      <h2>Just fetch</h2>
+      Just fetch an URL and display the content.
+      <admin-status state="state1"></admin-status>
+      <admin-fetch url="data/list.json" data="data1" state="state1">
+        <my-element slot="content" data="data1"></my-element>
+      </admin-fetch>
 
-    <h2>Fetch regularly</h2>
-    Fetch an URL every 10s and display the content.
-    <admin-status state="state2"></admin-status>
-    <admin-fetch url="data/list.json" data="data1" interval="10000" state="state2">
-      <my-element slot="content" data="data1"></my-element>
-    </admin-fetch>
+      <h2>Fetch regularly</h2>
+      Fetch an URL every 10s and display the content.
+      <admin-status state="state2"></admin-status>
+      <admin-fetch url="data/list.json" data="data1" interval="10000" state="state2">
+        <my-element slot="content" data="data1"></my-element>
+      </admin-fetch>
 
-    <h2>With a refresh button</h2>
-    <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button">Reload</admin-link
-    ><admin-status state="state3"></admin-status>
-    <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
-      <my-element slot="content" data="data3"></my-element>
-    </admin-fetch>
+      <h2>With a refresh button</h2>
+      <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button">Reload</admin-link
+      ><admin-status state="state3"></admin-status>
+      <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
+        <my-element slot="content" data="data3"></my-element>
+      </admin-fetch>
 
-    <h2>With an link that do an action and trigger a refresh</h2>
-    <admin-link emit="event4" admin-class="btn btn-primary" admin-href="data/action.json" admin-role="button"
-      >Do <b>an</b> action</admin-link
-    >Loading: <admin-status state="state4d" loading="loading"></admin-status>, Reloading:
-    <admin-status state="state4d" loading="reloading"></admin-status>
-    <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d">
-      <my-element slot="content" data="data4"></my-element>
-    </admin-fetch>
+      <h2>With an link that do an action and trigger a refresh</h2>
+      <admin-link
+        emit="event4"
+        admin-class="btn btn-primary"
+        admin-href="data/action.json"
+        admin-role="button"
+        >Do <b>an</b> action</admin-link
+      >Loading: <admin-status state="state4d" loading="loading"></admin-status>, Reloading:
+      <admin-status state="state4d" loading="reloading"></admin-status>
+      <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d">
+        <my-element slot="content" data="data4"></my-element>
+      </admin-fetch>
 
-    <h2>With a form that do an action and trigger a refresh</h2>
+      <h2>With a form that do an action and trigger a refresh</h2>
+      <my-form emit="event5"></my-form>
+      <admin-fetch url="data/list.json" trigger="event5" data="data5">
+        <my-element slot="content" data="data5"></my-element>
+      </admin-fetch>
 
-    <h2>With an link on error</h2>
-    <admin-link admin-class="btn btn-primary" admin-href="data/error.json" admin-role="button"
-      >Do an error</admin-link
-    >
+      <my-form-error></my-form-error>
+
+      <h2>With an link on error</h2>
+      <admin-link admin-class="btn btn-primary" admin-href="data/error.json" admin-role="button"
+        >Do an error</admin-link
+      >
+    </div>
   </body>
 </html>
