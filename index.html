@@ -54,8 +54,7 @@
               ? window.lit.map(
                   data["attribute"],
                   (item) => window.lit.html`
-                <p>${item["name"]}</p>
-                <p>${item["value"]}</p>
+                <p>${item["name"]}: ${item["value"]}</p>
               `
                 )
               : window.lit.html`<p>No data</p>`;
@@ -82,22 +81,17 @@
     </admin-fetch>
 
     <h2>With a refresh button</h2>
-    <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button"
-      >Reload</admin-link
+    <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button">Reload</admin-link
     ><admin-status state="state3"></admin-status>
     <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
       <my-element slot="content" data="data3"></my-element>
     </admin-fetch>
 
     <h2>With an link that do an action and trigger a refresh</h2>
-    <admin-link
-      emit="event4"
-      state="state4a"
-      admin-class="btn btn-primary"
-      admin-href="data/action.json"
-      admin-role="button"
+    <admin-link emit="event4" admin-class="btn btn-primary" admin-href="data/action.json" admin-role="button"
       >Do <b>an</b> action</admin-link
-    >Action: <admin-status state="state4a"></admin-status> Data: <admin-status state="state4d"></admin-status>
+    >Loading: <admin-status state="state4d" loading="loading"></admin-status>, Reloading:
+    <admin-status state="state4d" loading="reloading"></admin-status>
     <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d">
       <my-element slot="content" data="data4"></my-element>
     </admin-fetch>
@@ -105,13 +99,8 @@
     <h2>With a form that do an action and trigger a refresh</h2>
 
     <h2>With an link on error</h2>
-    <admin-link
-      state="state6"
-      admin-class="btn btn-primary"
-      admin-href="error/action.json"
-      admin-role="button"
+    <admin-link admin-class="btn btn-primary" admin-href="data/error.json" admin-role="button"
       >Do an error</admin-link
     >
-    <admin-status state="state6"></admin-status>
   </body>
 </html>

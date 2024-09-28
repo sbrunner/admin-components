@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { SignalWatcher } from "@lit-labs/preact-signals";
+import { Signal, SignalWatcher } from "@lit-labs/preact-signals";
 import { getSignal, doFetch, State } from "./utils";
 import { unsafeHTML, UnsafeHTMLDirective } from "lit/directives/unsafe-html.js";
 import { DirectiveResult } from "lit/async-directive.js";
@@ -22,12 +22,12 @@ export default class Link extends SignalWatcher(LitElement) {
   @property()
   emit: string = "";
   @property()
-  state: string = '';
+  state: string = "";
 
-  dataSignal: any;
-  emitSignal: any;
-  stateSignal: any;
-  innerContent: DirectiveResult<typeof UnsafeHTMLDirective> = html``;
+  dataSignal?: Signal;
+  emitSignal?: Signal<number>;
+  stateSignal?: Signal<State>;
+  innerContent?: DirectiveResult<typeof UnsafeHTMLDirective> = html``;
 
   connectedCallback() {
     super.connectedCallback();
@@ -46,16 +46,21 @@ export default class Link extends SignalWatcher(LitElement) {
   handleClick(event: Event) {
     event.preventDefault();
     if (this.href === "#") {
-      this.emitSignal.value = this.emitSignal.value + 1;
+      if (this.emitSignal) {
+        this.emitSignal.value = this.emitSignal.value + 1;
+      }
     } else {
-      this.stateSignal.value = State.Loading;
+      if (this.stateSignal) {
+        this.stateSignal.value = State.Loading;
+      }
       doFetch(this.href, this.dataSignal, this.emitSignal, this.stateSignal);
     }
   }
 
   render() {
+    const status = this.href === "#" ? html`` : html`<admin-status .state="${this.stateSignal}"></admin-status>`;
     return html`<a href="${this.href}" class="${this.class}" role="${this.role}" @click=${this.handleClick}
-      >${this.innerContent}</a
+      >${status} ${this.innerContent}</a
     >`;
   }
 }

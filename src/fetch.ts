@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { computed, SignalWatcher, watch, computed } from "@lit-labs/preact-signals";
+import { computed, SignalWatcher, watch, Signal } from "@lit-labs/preact-signals";
 import { getSignal, State, doFetch } from "./utils";
 
 /**
@@ -44,10 +44,13 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   @property()
   interval: number = -1;
 
-  emitSignal: any;
-  triggerSignal: any;
-  dataSignal: any;
-  stateSignal: any;
+  emitSignal?: Signal<number>;
+  triggerSignal?: Signal<number>;
+  dataSignal?: Signal;
+  stateSignal?: Signal<State>;
+  unused?: Signal<number>;
+
+  lastTrigger: number = 0;
 
   connectedCallback() {
     super.connectedCallback();
@@ -59,6 +62,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     this.emitSignal = getSignal(this.emit);
     this.emitSignal.value = 0;
     this.triggerSignal = getSignal(this.trigger);
+    this.triggerSignal.value = this.lastTrigger;
     this.dataSignal = getSignal(this.data);
     this.stateSignal = getSignal(this.state);
     this.stateSignal.value = State.Loading;
@@ -66,25 +70,38 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
 
     this.unused = computed(() => {
-      this.stateSignal.value = State.Reloading;
+      if (this.triggerSignal?.value === this.lastTrigger) {
+        return 0;
+      }
+      this.lastTrigger = this.triggerSignal?.value ?? 0;
+      if (this.stateSignal) {
+        if (this.stateSignal.value === State.Loading || this.stateSignal.value === State.Reloading) {
+          return 0;
+        }
+        this.stateSignal.value = State.Reloading;
+      }
       doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
-      return this.triggerSignal.value;
+      return 0;
     });
 
     if (this.interval > 0) {
       setInterval(() => {
-        this.stateSignal.value = State.Reloading;
+        if (this.stateSignal) {
+          this.stateSignal.value = State.Reloading;
+        }
         doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
       }, this.interval);
     }
   }
 
   render() {
-    watch(this.unused.value);
-    if (this.stateSignal.value === State.Error) {
+    if (this.unused !== undefined) {
+      this.unused.value;
+    }
+    if (this.stateSignal?.value === State.Error) {
       return html`<div>Error</div>`;
     }
-    if (this.stateSignal.value === State.Loading) {
+    if (this.stateSignal?.value === State.Loading) {
       return html`<div>Loading</div>`;
     }
     return html`<slot name="content"></slot>`;

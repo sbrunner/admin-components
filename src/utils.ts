@@ -1,8 +1,11 @@
-import { signal } from "@lit-labs/preact-signals";
+import { Signal, signal } from "@lit-labs/preact-signals";
 
 const signaux: any = {};
 
-export function getSignal(signalName: string) {
+export function getSignal(signalName: string | Signal) : Signal {
+  if (signalName instanceof Signal) {
+    return signalName;
+  }
   if (!signalName) {
     return signal();
   }
