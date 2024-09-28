@@ -19,13 +19,14 @@ import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 import { until } from "lit/directives/until.js";
 import { asyncAppend } from "lit/directives/async-append.js";
 import { asyncReplace } from "lit/directives/async-replace.js";
-import list from "./fetch.js";
+import fetch from "./fetch.js";
+import link from "./link.js";
 import Element from "./element.js";
 
 import { SignalWatcher, signal } from "@lit-labs/preact-signals";
 
 // To force to be included in the bundle
-console.log(list);
+console.log(fetch, link);
 
 window.admin = {
   Element,

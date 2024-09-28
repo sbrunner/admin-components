@@ -1,14 +1,8 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import {  SignalWatcher } from "@lit-labs/preact-signals";
-import { getSignal } from "./utils";
+import { computed, SignalWatcher, watch, computed } from "@lit-labs/preact-signals";
+import { getSignal, State, doFetch } from "./utils";
 
-enum State {
-  Initial = "initial",
-  Loading = "loading",
-  Loaded = "loaded",
-  Error = "error",
-}
 /**
  * Fetch data from a URL and store it in a signal.
  */
@@ -24,7 +18,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
    * Signal name of a counter to be notified on a successful fetch.
    */
   @property()
-  emitter: string = "";
+  emit: string = "";
 
   /**
    * Signal name of a counter to trigger a fetch.
@@ -44,7 +38,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   @property()
   state: string = "";
 
-  emitterSignal: any;
+  emitSignal: any;
   triggerSignal: any;
   dataSignal: any;
   stateSignal: any;
@@ -56,40 +50,23 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
       throw new Error("url is required");
     }
 
-    this.emitterSignal = getSignal(this.emitter);
+    this.emitSignal = getSignal(this.emit);
+    this.emitSignal.value = 0;
     this.triggerSignal = getSignal(this.trigger);
-    this.triggerSignal.value = 0;
     this.dataSignal = getSignal(this.data);
     this.stateSignal = getSignal(this.state);
     this.stateSignal.value = State.Loading;
 
-    fetch(this.url).then(
-      (response) => {
-        if (!response.ok) {
-          console.error("HTTP error on fetching", response);
-          this.state = State.Error;
-        } else {
-          response.json().then(
-            (data) => {
-              this.dataSignal.value = data;
-              this.stateSignal.value = State.Loaded;
-              this.triggerSignal.value = this.triggerSignal.value + 1;
-            },
-            (error) => {
-              console.error("Error on parsing", error);
-              this.stateSignal.value = State.Error;
-            }
-          );
-        }
-      },
-      (error) => {
-        console.error("Error on fetching", error);
-        this.stateSignal.value = State.Error;
-      }
-    );
+    doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+
+    this.unused = computed(() => {
+      doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+      return this.triggerSignal.value;
+    });
   }
 
   render() {
+    watch(this.unused.value);
     if (this.stateSignal.value === State.Error) {
       return html`<div>Error</div>`;
     }

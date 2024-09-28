@@ -3,17 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <title>Admin elements</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="${request.static_url('/app/tilecloud_chain/static/favicon-32x32.png')}"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="${request.static_url('/app/tilecloud_chain/static/favicon-16x16.png')}"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+      integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      a {
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
     <script type="module" src="/src/index.ts"></script>
     <script>
+      /* For dark mode */
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+      }
+
       window.onload = () => {
         /**
          * An example element.
          */
         class MyElement extends window.admin.Element {
           render() {
-            console.log("elem");
-            console.log(this.dataSignal);
-            console.log(this.dataSignal.value);
             const data = this.dataSignal.value;
 
             return data
@@ -33,8 +64,19 @@
     </script>
   </head>
   <body>
-    <admin-fetch url="data/list.json" data="data">
-      <my-element slot="content" data="data"></my-element>
+    <h2>Just fetch</h2>
+    Just fetch an URL and display the content.
+    <admin-fetch url="data/list.json" data="data1">
+      <my-element slot="content" data="data1"></my-element>
     </admin-fetch>
+    <h2>Fetch regularly</h2>
+    Fetch an URL every 10s and display the content.
+    <h2>With a refresh button</h2>
+    <h2>With an link that do an action and trigger a refresh</h2>
+    <admin-link href="data/action.json" emit="event4" admin-class="btn btn-primary" admin-href="data/action.json" admin-role="button">Do <b>an</b> action</admin-link>
+    <admin-fetch url="data/list.json" trigger="event4" data="data4">
+      <my-element slot="content" data="data4"></my-element>
+    </admin-fetch>
+    <h2>With a form that do an action and trigger a refresh</h2>
   </body>
 </html>
