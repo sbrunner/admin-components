@@ -1,0 +1,51 @@
+{
+  'extends': ['config:base'],
+  semanticCommits: 'disabled',
+  timezone: 'Europe/Zurich',
+  schedule: 'after 5pm on the first day of the month',
+  labels: ['dependencies'],
+  separateMajorMinor: true,
+  separateMinorPatch: true,
+  separateMultipleMajor: true,
+  prHourlyLimit: 0,
+  prConcurrentLimit: 0,
+  lockFileMaintenance: {enabled: true, automerge: true, schedule: 'after 5pm on the first day of the month'},
+  'pre-commit': {enabled: true},
+  regexManagers: [
+    /** Do updates on pre-commit additional dependencies */
+    {
+      fileMatch: ['^\\.pre\\-commit\\-config\\.yaml$'],
+      matchStrings: [" +- '?(?<depName>[^' @=]+)(@|==)(?<currentValue>[^' @=]+)'? # (?<datasource>.+)"],
+    },
+  ],
+  packageRules: [
+    /** Auto merge the dev dependency update */
+    {
+      matchDepTypes: ['devDependencies'],
+      automerge: true,
+    },
+    /** Group and auto merge the patch updates */
+    {
+      matchUpdateTypes: ['patch'],
+      groupName: 'all patch versions',
+      automerge: true,
+    },
+    /** Group and auto merge the minor updates */
+    {
+      matchUpdateTypes: ['minor'],
+      groupName: 'all minor versions',
+      automerge: true,
+    },
+    /** Support the 4 parts of shellcheck-py version with a v prefix */
+    {
+      versioning: 'regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$',
+      matchDepNames: ['shellcheck-py/shellcheck-py'],
+    },
+    /** Group and auto merge the CI dependencies */
+    {
+      matchFileNames: ['.github/**', '.pre-commit-config.yaml'],
+      groupName: 'CI dependencies',
+      automerge: true,
+    },
+  ],
+}
