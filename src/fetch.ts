@@ -102,7 +102,9 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
         }
         this.stateSignal.value = State.Reloading;
       }
-      doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+      if (this.dataSignal && this.emitSignal) {
+        doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+      }
       return 0;
     });
 
@@ -111,7 +113,9 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
         if (this.stateSignal) {
           this.stateSignal.value = State.Reloading;
         }
-        doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+        if (this.dataSignal && this.emitSignal) {
+          doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
+        }
       }, this.interval);
     }
   }
@@ -129,6 +133,8 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   `;
   render() {
     if (this.unused !== undefined) {
+      // Just to make the trigger working
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       this.unused.value;
     }
     if (this.stateSignal?.value === State.Error) {

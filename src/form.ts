@@ -1,9 +1,7 @@
-import { LitElement, html } from 'lit';
+import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
 import { getSignal, doFetch, State } from './utils';
-import { unsafeHTML, UnsafeHTMLDirective } from 'lit/directives/unsafe-html.js';
-import { DirectiveResult } from 'lit/async-directive.js';
 
 /**
  * Fetch data from a URL and store it in a signal.
@@ -33,8 +31,10 @@ export default class Link extends SignalWatcher(LitElement) {
     return this;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getJsonData(form: HTMLFormElement): { [id: string]: any } {
     const data = new FormData(form);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const jsonData: { [id: string]: any } = {};
     data.forEach((value, key) => {
       jsonData[key] = value;
@@ -49,13 +49,15 @@ export default class Link extends SignalWatcher(LitElement) {
     }
     const form = this.getElementsByTagName('form')[0];
     const jsonData = this.getJsonData(form);
-    doFetch(
-      form.getAttribute('action') || '',
-      this.dataSignal,
-      this.emitSignal,
-      this.stateSignal,
-      'POST',
-      jsonData,
-    );
+    if (this.dataSignal && this.emitSignal) {
+      doFetch(
+        form.getAttribute('action') || '',
+        this.dataSignal,
+        this.emitSignal,
+        this.stateSignal,
+        'POST',
+        jsonData,
+      );
+    }
   }
 }

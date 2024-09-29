@@ -53,7 +53,9 @@ export default class Link extends SignalWatcher(LitElement) {
       if (this.stateSignal) {
         this.stateSignal.value = State.Loading;
       }
-      doFetch(this.href, this.dataSignal, this.emitSignal, this.stateSignal);
+      if (this.dataSignal && this.emitSignal) {
+        doFetch(this.href, this.dataSignal, this.emitSignal, this.stateSignal);
+      }
     }
   }
 
