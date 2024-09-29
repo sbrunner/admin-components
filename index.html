@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -31,7 +31,7 @@
       a:hover {
         text-decoration: underline;
       }
-      a:hover[role="button"] {
+      a:hover[role='button'] {
         text-decoration: none;
       }
       .form-control {
@@ -41,8 +41,8 @@
     <script type="module" src="/src/index.ts"></script>
     <script>
       /* For dark mode */
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.documentElement.setAttribute("data-bs-theme", "dark");
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
       }
 
       window.onload = () => {
@@ -55,15 +55,15 @@
 
             return data
               ? window.lit.map(
-                  data["attribute"],
+                  data['attribute'],
                   (item) => window.lit.html`
-                <p>${item["name"]}: ${item["value"]}</p>
-              `
+                <p>${item['name']}: ${item['value']}</p>
+              `,
                 )
               : window.lit.html``;
           }
         }
-        window.customElements.define("my-element", MyElement);
+        window.customElements.define('my-element', MyElement);
 
         /**
          * A form element.
@@ -82,7 +82,7 @@
       `;
           }
         }
-        window.customElements.define("my-form", MyForm);
+        window.customElements.define('my-form', MyForm);
 
         /**
          * A form element error.
@@ -100,7 +100,7 @@
       `;
           }
         }
-        window.customElements.define("my-form-error", MyFormError);
+        window.customElements.define('my-form-error', MyFormError);
       };
     </script>
   </head>
@@ -116,16 +116,24 @@
       <h2>Fetch regularly</h2>
       Fetch an URL every 10s and display the content.
       <admin-status state="state2"></admin-status>
-      <admin-fetch url="data/list.json" data="data2" interval="10000" state="state2" line-min="10" line-max="25"></admin-fetch>
+      <admin-fetch
+        url="data/list.json"
+        data="data2"
+        interval="10000"
+        state="state2"
+        line-min="10"
+        line-max="25"
+      >
         <my-element slot="content" data="data2"></my-element>
       </admin-fetch>
 
       <h2>With a refresh button</h2>
       <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button">Reload</admin-link>
-      <div style="width: 20rem;position: relative">
-        <div style="position: absolute; top: 0; right: 0; font-size: 2em;">
-        <admin-status state="state3" no-empty="true" loading="reloading" success=""></admin-status></div>
-        <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3"></admin-fetch>
+      <div style="width: 20rem; position: relative">
+        <div style="position: absolute; top: 0; right: 0; font-size: 2em">
+          <admin-status state="state3" no-empty="true" loading="reloading" success=""></admin-status>
+        </div>
+        <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
           <my-element slot="content" data="data3"></my-element>
         </admin-fetch>
       </div>
@@ -137,15 +145,24 @@
         admin-href="data/action.json"
         admin-role="button"
         >Do <b>an</b> action</admin-link
-      > Loading: <admin-status state="state4d" loading="loading" success="success,reloading"></admin-status>, Reloading:
+      >
+      Loading: <admin-status state="state4d" loading="loading" success="success,reloading"></admin-status>,
+      Reloading:
       <admin-status state="state4d" loading="reloading" success="success,loading"></admin-status>
-      <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d" line-min="10" line-max="25"></admin-fetch>
+      <admin-fetch
+        url="data/list.json"
+        trigger="event4"
+        data="data4"
+        state="state4d"
+        line-min="10"
+        line-max="25"
+      >
         <my-element slot="content" data="data4"></my-element>
       </admin-fetch>
 
       <h2>With a form that do an action and trigger a refresh</h2>
       <my-form emit="event5"></my-form>
-      <admin-fetch url="data/list.json" trigger="event5" data="data5" line-min="10" line-max="25"></admin-fetch>
+      <admin-fetch url="data/list.json" trigger="event5" data="data5" line-min="10" line-max="25">
         <my-element slot="content" data="data5"></my-element>
       </admin-fetch>
 

@@ -1,24 +1,24 @@
-import { LitElement, css, html, svg } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { Signal, SignalWatcher } from "@lit-labs/preact-signals";
-import { getSignal, State } from "./utils";
+import { LitElement, css, html, svg } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
+import { getSignal, State } from './utils';
 
 const converter = {
   fromAttribute(value: string): string[] {
-    return value.split(",").map((v) => v.trim());
+    return value.split(',').map((v) => v.trim());
   },
   toAttribute(value: string[]): string {
-    return value.join(",");
+    return value.join(',');
   },
 };
 
 /**
  * Fetch data from a URL and store it in a signal.
  */
-@customElement("admin-status")
+@customElement('admin-status')
 export default class Status extends SignalWatcher(LitElement) {
   @property()
-  state: string | Signal<State> = "";
+  state: string | Signal<State> = '';
   @property({
     converter,
   })
@@ -32,7 +32,7 @@ export default class Status extends SignalWatcher(LitElement) {
   })
   error: State[] = [State.Error];
   @property({
-    attribute: "no-empty",
+    attribute: 'no-empty',
   })
   noEmpty: boolean = false;
 

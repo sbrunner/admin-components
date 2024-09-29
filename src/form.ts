@@ -1,21 +1,21 @@
-import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { Signal, SignalWatcher } from "@lit-labs/preact-signals";
-import { getSignal, doFetch, State } from "./utils";
-import { unsafeHTML, UnsafeHTMLDirective } from "lit/directives/unsafe-html.js";
-import { DirectiveResult } from "lit/async-directive.js";
+import { LitElement, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
+import { getSignal, doFetch, State } from './utils';
+import { unsafeHTML, UnsafeHTMLDirective } from 'lit/directives/unsafe-html.js';
+import { DirectiveResult } from 'lit/async-directive.js';
 
 /**
  * Fetch data from a URL and store it in a signal.
  */
-@customElement("admin-form")
+@customElement('admin-form')
 export default class Link extends SignalWatcher(LitElement) {
   @property()
-  data: string = "";
+  data: string = '';
   @property()
-  emit: string = "";
+  emit: string = '';
   @property()
-  state: string = "";
+  state: string = '';
 
   dataSignal?: Signal;
   emitSignal?: Signal<number>;
@@ -47,15 +47,15 @@ export default class Link extends SignalWatcher(LitElement) {
     if (this.stateSignal) {
       this.stateSignal.value = State.Loading;
     }
-    const form = this.getElementsByTagName("form")[0];
+    const form = this.getElementsByTagName('form')[0];
     const jsonData = this.getJsonData(form);
     doFetch(
-      form.getAttribute("action") || "",
+      form.getAttribute('action') || '',
       this.dataSignal,
       this.emitSignal,
       this.stateSignal,
-      "POST",
-      jsonData
+      'POST',
+      jsonData,
     );
   }
 }

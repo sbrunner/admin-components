@@ -1,43 +1,43 @@
-import { LitElement, css, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { computed, SignalWatcher, Signal } from "@lit-labs/preact-signals";
-import { getSignal, State, doFetch } from "./utils";
-import { map } from "lit/directives/map.js";
+import { LitElement, css, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { computed, SignalWatcher, Signal } from '@lit-labs/preact-signals';
+import { getSignal, State, doFetch } from './utils';
+import { map } from 'lit/directives/map.js';
 
 /**
  * Fetch data from a URL and store it in a signal.
  */
-@customElement("admin-fetch")
+@customElement('admin-fetch')
 export default class AdminFetch extends SignalWatcher(LitElement) {
   /**
    * URL to fetch data from.
    */
   @property()
-  url: string = "";
+  url: string = '';
 
   /**
    * Signal name of a counter to be notified on a successful fetch.
    */
   @property()
-  emit: string = "";
+  emit: string = '';
 
   /**
    * Signal name of a counter to trigger a fetch.
    */
   @property()
-  trigger: string = "";
+  trigger: string = '';
 
   /**
    * Signal name of the fetched data.
    */
   @property()
-  data: string = "";
+  data: string = '';
 
   /**
    * Signal name of the state of the fetch.
    */
   @property()
-  state: string = "";
+  state: string = '';
 
   /**
    * Time interval to fetch data [milliseconds].
@@ -52,11 +52,11 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   lines: number = 3;
 
   @property({
-    attribute: "line-min",
+    attribute: 'line-min',
   })
   lineMin: number = 0;
   @property({
-    attribute: "line-max",
+    attribute: 'line-max',
   })
   lineMax: number = 100;
 
@@ -73,7 +73,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     super.connectedCallback();
 
     if (!this.url) {
-      throw new Error("url is required");
+      throw new Error('url is required');
     }
 
     this.emitSignal = getSignal(this.emit);
@@ -123,8 +123,8 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
       cursor: wait;
       background-color: currentcolor;
       opacity: 0.5;
-      margin-block-start: .3em;
-      margin-block-end: .3em;
+      margin-block-start: 0.3em;
+      margin-block-end: 0.3em;
     }
   `;
   render() {
@@ -137,7 +137,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     if (this.stateSignal?.value === State.Loading) {
       return map(
         this.linesLength,
-        (length) => html`<p aria-hidden="true" class="placeholder" style="width: ${length}%;"></p>`
+        (length) => html`<p aria-hidden="true" class="placeholder" style="width: ${length}%;"></p>`,
       );
     }
     return html`<slot name="content"></slot>`;
