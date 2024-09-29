@@ -72,3 +72,5 @@ window.lit = {
     signal,
   },
 };
+
+export default undefined;

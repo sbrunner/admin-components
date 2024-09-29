@@ -4,20 +4,6 @@
     <meta charset="UTF-8" />
     <title>Admin elements</title>
     <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="${request.static_url('/app/tilecloud_chain/static/favicon-32x32.png')}"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="${request.static_url('/app/tilecloud_chain/static/favicon-16x16.png')}"
-      referrerpolicy="no-referrer"
-    />
-    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
       integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
@@ -71,7 +57,7 @@
         class MyForm extends window.admin.Form {
           render() {
             return window.lit.html`
-        <form action="data/action.json" @submit="${this.handleSubmit}">
+        <form action="src/stories/data/action.json" @submit="${this.handleSubmit}">
         <input type="text" class="form-control" name="name" placeholder="Name" />
         <input type="text" class="form-control" name="value" placeholder="Value" />
         <button type="submit" class="btn btn-primary">
@@ -89,7 +75,7 @@
         class MyFormError extends window.admin.Form {
           render() {
             return window.lit.html`
-        <form action="data/error.json" @submit="${this.handleSubmit}">
+        <form action="src/stories/data/error.json" @submit="${this.handleSubmit}">
         <input type="text" class="form-control" name="name" placeholder="Name" />
         <input type="text" class="form-control" name="value" placeholder="Value" />
         <button type="submit" class="btn btn-primary">
@@ -108,7 +94,7 @@
       <h2>Just fetch</h2>
       <p>Just fetch an URL and display the content.</p>
       <admin-status state="state1"></admin-status>
-      <admin-fetch url="data/list.json" data="data1" state="state1" line-min="10" line-max="25">
+      <admin-fetch url="src/stories/data/list.json" data="data1" state="state1" line-min="10" line-max="25">
         <my-element slot="content" data="data1"></my-element>
       </admin-fetch>
 
@@ -116,7 +102,7 @@
       Fetch an URL every 10s and display the content.
       <admin-status state="state2"></admin-status>
       <admin-fetch
-        url="data/list.json"
+        url="src/stories/data/list.json"
         data="data2"
         interval="10000"
         state="state2"
@@ -132,7 +118,7 @@
         <div style="position: absolute; top: 0; right: 0; font-size: 2em">
           <admin-status state="state3" no-empty="true" loading="reloading" success=""></admin-status>
         </div>
-        <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
+        <admin-fetch url="src/stories/data/list.json" trigger="event3" data="data3" state="state3">
           <my-element slot="content" data="data3"></my-element>
         </admin-fetch>
       </div>
@@ -141,7 +127,7 @@
       <admin-link
         emit="event4"
         admin-class="btn btn-primary"
-        admin-href="data/action.json"
+        admin-href="src/stories/data/action.json"
         admin-role="button"
         >Do <b>an</b> action</admin-link
       >
@@ -149,7 +135,7 @@
       Reloading:
       <admin-status state="state4d" loading="reloading" success="success,loading"></admin-status>
       <admin-fetch
-        url="data/list.json"
+        url="src/stories/data/list.json"
         trigger="event4"
         data="data4"
         state="state4d"
@@ -161,14 +147,14 @@
 
       <h2>With a form that do an action and trigger a refresh</h2>
       <my-form emit="event5"></my-form>
-      <admin-fetch url="data/list.json" trigger="event5" data="data5" line-min="10" line-max="25">
+      <admin-fetch url="src/stories/data/list.json" trigger="event5" data="data5" line-min="10" line-max="25">
         <my-element slot="content" data="data5"></my-element>
       </admin-fetch>
 
       <my-form-error></my-form-error>
 
       <h2>With an link on error</h2>
-      <admin-link admin-class="btn btn-primary" admin-href="data/error.json" admin-role="button"
+      <admin-link admin-class="btn btn-primary" admin-href="src/stories/data/error.json" admin-role="button"
         >Do an error</admin-link
       >
 
@@ -176,7 +162,7 @@
       <admin-form>
         <pre>
         {
-          "action": "data/action.json",
+          "action": "src/stories/data/action.json",
           "fields": [
             {
               "name": "name",
@@ -196,7 +182,7 @@
       <admin-form>
         <pre>
         {
-          "action": "data/action.json",
+          "action": "src/stories/data/action.json",
           "type": "line",
           "fields": [
             {

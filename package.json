@@ -2,7 +2,10 @@
   "name": "admin-components",
   "version": "0.0.0",
   "type": "module",
-  "author": "Stéphane Brunner <stephane.brunner@camptocamp.com>",
+  "author": {
+    "name": "Stéphane Brunner",
+    "email": "stephane.brunner@camptocamp.com"
+  },
   "license": "BSD-2-Clause",
   "scripts": {
     "dev": "vite",
@@ -10,17 +13,37 @@
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "lint": "eslint src/*.ts src/**/*.ts",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "upgrade-storybook": "storybook upgrade"
   },
   "dependencies": {
     "@lit-labs/preact-signals": "1.0.2",
     "lit": "3.2.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "1.9.0",
+    "@storybook/addon-essentials": "8.3.4",
+    "@storybook/addon-links": "8.3.4",
+    "@storybook/blocks": "8.3.4",
+    "@storybook/test": "8.3.4",
+    "@storybook/web-components": "8.3.4",
+    "@storybook/web-components-vite": "8.3.4",
     "@typescript-eslint/eslint-plugin": "8.4.0",
     "@typescript-eslint/parser": "8.4.0",
+    "chromatic": "11.10.4",
     "eslint": "9.9.1",
+    "eslint-plugin-storybook": "0.9.0",
+    "hast-util-to-html": "9.0.3",
+    "lowlight": "3.1.0",
+    "storybook": "8.3.4",
     "typescript": "5.5.3",
     "vite": "5.4.6"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }
