@@ -1,6 +1,6 @@
 import { Signal, signal } from '@lit-labs/preact-signals';
 
-const signaux: any = {};
+const signaux: { [key: string]: Signal } = {};
 
 export function getSignal(signalName: string | Signal): Signal {
   if (signalName instanceof Signal) {
@@ -25,13 +25,14 @@ export enum State {
 
 export function doFetch(
   url: string,
-  dataSignal: any,
-  emitSignal: any,
-  stateSignal?: any,
+  dataSignal: Signal,
+  emitSignal: Signal<number>,
+  stateSignal?: Signal<State>,
   method: string = 'GET',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any = null,
 ) {
-  const options: { [id: string]: any } = {
+  const options: RequestInit = {
     method: method,
   };
   if (data !== null) {

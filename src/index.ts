@@ -30,6 +30,15 @@ import { SignalWatcher, signal } from '@lit-labs/preact-signals';
 // To force to be included in the bundle
 console.log(Fetch, Link, Spinner);
 
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    admin: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    lit: any;
+  }
+}
+
 window.admin = {
   Element,
   Form,
