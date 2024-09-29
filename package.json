@@ -6,10 +6,11 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
-    "lint": "eslint src/*.ts src/**/*.ts"
+    "lint": "eslint src/*.ts src/**/*.ts",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@lit-labs/preact-signals": "1.0.2",
