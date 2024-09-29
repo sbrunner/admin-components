@@ -116,7 +116,7 @@
       <h2>Fetch regularly</h2>
       Fetch an URL every 10s and display the content.
       <admin-status state="state2"></admin-status>
-      <admin-fetch url="data/list.json" data="data2" interval="10000" state="state2" line-min="10" line-max="25"></admin-fetch>
+      <admin-fetch url="data/list.json" data="data2" interval="10000" state="state2" line-min="10" line-max="25">
         <my-element slot="content" data="data2"></my-element>
       </admin-fetch>
 
@@ -125,7 +125,7 @@
       <div style="width: 20rem;position: relative">
         <div style="position: absolute; top: 0; right: 0; font-size: 2em;">
         <admin-status state="state3" no-empty="true" loading="reloading" success=""></admin-status></div>
-        <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3"></admin-fetch>
+        <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
           <my-element slot="content" data="data3"></my-element>
         </admin-fetch>
       </div>
@@ -139,13 +139,13 @@
         >Do <b>an</b> action</admin-link
       > Loading: <admin-status state="state4d" loading="loading" success="success,reloading"></admin-status>, Reloading:
       <admin-status state="state4d" loading="reloading" success="success,loading"></admin-status>
-      <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d" line-min="10" line-max="25"></admin-fetch>
+      <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d" line-min="10" line-max="25">
         <my-element slot="content" data="data4"></my-element>
       </admin-fetch>
 
       <h2>With a form that do an action and trigger a refresh</h2>
       <my-form emit="event5"></my-form>
-      <admin-fetch url="data/list.json" trigger="event5" data="data5" line-min="10" line-max="25"></admin-fetch>
+      <admin-fetch url="data/list.json" trigger="event5" data="data5" line-min="10" line-max="25">
         <my-element slot="content" data="data5"></my-element>
       </admin-fetch>
 
