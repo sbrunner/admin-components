@@ -122,7 +122,7 @@
 
       <h2>With a refresh button</h2>
       <admin-link emit="event3" admin-class="btn btn-primary" admin-role="button">Reload</admin-link
-      ><admin-status state="state3"></admin-status>
+      > <admin-status state="state3"></admin-status>
       <admin-fetch url="data/list.json" trigger="event3" data="data3" state="state3">
         <my-element slot="content" data="data3"></my-element>
       </admin-fetch>
@@ -134,7 +134,7 @@
         admin-href="data/action.json"
         admin-role="button"
         >Do <b>an</b> action</admin-link
-      >Loading: <admin-status state="state4d" loading="loading"></admin-status>, Reloading:
+      > Loading: <admin-status state="state4d" loading="loading"></admin-status>, Reloading:
       <admin-status state="state4d" loading="reloading"></admin-status>
       <admin-fetch url="data/list.json" trigger="event4" data="data4" state="state4d">
         <my-element slot="content" data="data4"></my-element>

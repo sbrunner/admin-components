@@ -19,7 +19,7 @@ export enum State {
   Initial = "initial",
   Loading = "loading",
   Reloading = "reloading",
-  Loaded = "loaded",
+  Success = "loaded",
   Error = "error",
 }
 
@@ -52,7 +52,7 @@ export function doFetch(
             (data) => {
               dataSignal.value = data;
               if (stateSignal != undefined) {
-                stateSignal.value = State.Loaded;
+                stateSignal.value = State.Success;
               }
               emitSignal.value = emitSignal.value + 1;
             },
