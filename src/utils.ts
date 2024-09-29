@@ -19,7 +19,7 @@ export enum State {
   Initial = "initial",
   Loading = "loading",
   Reloading = "reloading",
-  Success = "loaded",
+  Success = "success",
   Error = "error",
 }
 

@@ -31,6 +31,10 @@ export default class Status extends SignalWatcher(LitElement) {
     converter,
   })
   error: State[] = [State.Error];
+  @property({
+    attribute: "no-empty",
+  })
+  noEmpty: boolean = false;
 
   stateSignal?: Signal<State>;
 
@@ -125,6 +129,9 @@ height="1em"
     }
     if (this.success.includes(this.stateSignal.value)) {
       return html`<span class="root"><span class="success">${this.successSvg}</span></span>`;
+    }
+    if (this.noEmpty) {
+      return html``;
     }
     return html`<span class="root"><span class="empty">${this.emptySvg}</span></span>`;
   }
