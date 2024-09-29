@@ -70,7 +70,6 @@
          */
         class MyForm extends window.admin.Form {
           render() {
-            console.log(555555);
             return window.lit.html`
         <form action="data/action.json" @submit="${this.handleSubmit}">
         <input type="text" class="form-control" name="name" placeholder="Name" />
@@ -172,6 +171,47 @@
       <admin-link admin-class="btn btn-primary" admin-href="data/error.json" admin-role="button"
         >Do an error</admin-link
       >
+
+      <h2>Simple form</h2>
+      <admin-form>
+        <pre>
+        {
+          "action": "data/action.json",
+          "fields": [
+            {
+              "name": "name",
+              "label": "Name"
+            },
+            {
+              "name": "value",
+              "label": "Value"
+            }
+          ]
+        }
+      </pre
+        >
+      </admin-form>
+
+      <h2>Simple one line form</h2>
+      <admin-form>
+        <pre>
+        {
+          "action": "data/action.json",
+          "type": "line",
+          "fields": [
+            {
+              "name": "name",
+              "placeholder": "Name"
+            },
+            {
+              "name": "value",
+              "placeholder": "Value"
+            }
+          ]
+        }
+      </pre
+        >
+      </admin-form>
     </div>
   </body>
 </html>
