@@ -23,6 +23,10 @@ repos:
     rev: v2.3.0
     hooks:
       - id: codespell
+        exclude: |
+          (?x)^(
+            package-lock\.json
+          )$
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.1.0
     hooks:
