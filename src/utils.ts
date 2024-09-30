@@ -1,4 +1,4 @@
-import { Signal, signal } from '@lit-labs/preact-signals';
+import { batch, Signal, signal } from '@lit-labs/preact-signals';
 
 const signaux: { [key: string]: Signal } = {};
 
@@ -51,11 +51,13 @@ export function doFetch(
       } else {
         response.json().then(
           (data) => {
-            dataSignal.value = data;
-            if (stateSignal != undefined) {
-              stateSignal.value = State.Success;
-            }
-            emitSignal.value = emitSignal.value + 1;
+            batch(() => {
+              dataSignal.value = data;
+              if (stateSignal != undefined) {
+                stateSignal.value = State.Success;
+              }
+              emitSignal.value = emitSignal.value + 1;
+            });
           },
           (error) => {
             console.error('Error on parsing', error);
