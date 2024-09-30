@@ -70,6 +70,7 @@ repos:
     rev: 1.0.0
     hooks:
       - id: copyright
+      - id: npm-lock
   - repo: https://github.com/sbrunner/jsonschema-validator
     rev: 0.1.0
     hooks:
