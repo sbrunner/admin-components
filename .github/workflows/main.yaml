@@ -11,7 +11,7 @@ on:
 jobs:
   pre-commit:
     name: Pre-commit
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
@@ -41,7 +41,7 @@ jobs:
 
   auto-upgrade:
     name: Auto-upgrade
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
@@ -62,7 +62,7 @@ jobs:
 
   main:
     name: Continuous integration
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
     needs:
