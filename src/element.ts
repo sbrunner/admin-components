@@ -1,6 +1,6 @@
 import { LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
+import { Signal, SignalWatcher } from '@lit-labs/signals';
 import { getSignal } from './utils';
 
 export default class Element extends SignalWatcher(LitElement) {
@@ -9,7 +9,7 @@ export default class Element extends SignalWatcher(LitElement) {
    */
   @property()
   data: string = '';
-  dataSignal?: Signal;
+  dataSignal?: Signal.State<any>;
 
   connectedCallback() {
     super.connectedCallback();

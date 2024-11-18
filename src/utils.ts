@@ -1,16 +1,17 @@
-import { batch, Signal, signal } from '@lit-labs/preact-signals';
+import { Signal, signal } from '@lit-labs/signals';
+import { batch } from 'signal-utils/subtle/batched-effect';
 
-const signaux: { [key: string]: Signal } = {};
+const signaux: { [key: string]: Signal.State<any> } = {};
 
-export function getSignal(signalName: string | Signal): Signal {
-  if (signalName instanceof Signal) {
+export function getSignal(signalName: string | Signal.State<any>): Signal.State<any> {
+  if (signalName instanceof Signal.State) {
     return signalName;
   }
   if (!signalName) {
-    return signal();
+    return signal(undefined);
   }
   if (!signaux[signalName]) {
-    signaux[signalName] = signal();
+    signaux[signalName] = signal(undefined);
   }
   return signaux[signalName];
 }
@@ -25,9 +26,9 @@ export enum State {
 
 export function doFetch(
   url: string,
-  dataSignal: Signal,
-  emitSignal: Signal<number>,
-  stateSignal?: Signal<State>,
+  dataSignal: Signal.State<any>,
+  emitSignal: Signal.State<number>,
+  stateSignal?: Signal.State<State>,
   method: string = 'GET',
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any = null,
@@ -46,23 +47,23 @@ export function doFetch(
       if (!response.ok) {
         console.error('HTTP error on fetching', response);
         if (stateSignal != undefined) {
-          stateSignal.value = State.Error;
+          stateSignal.set(State.Error);
         }
       } else {
         response.json().then(
           (data) => {
             batch(() => {
-              dataSignal.value = data;
+              dataSignal.set(data);
               if (stateSignal != undefined) {
-                stateSignal.value = State.Success;
+                stateSignal.set(State.Success);
               }
-              emitSignal.value = emitSignal.value + 1;
+              emitSignal.set(emitSignal.get() + 1);
             });
           },
           (error) => {
             console.error('Error on parsing', error);
             if (stateSignal != undefined) {
-              stateSignal.value = State.Error;
+              stateSignal.set(State.Error);
             }
           },
         );
@@ -71,7 +72,7 @@ export function doFetch(
     (error) => {
       console.error('Error on fetching', error);
       if (stateSignal != undefined) {
-        stateSignal.value = State.Error;
+        stateSignal.set(State.Error);
       }
     },
   );

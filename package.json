@@ -19,8 +19,9 @@
     "upgrade-storybook": "storybook upgrade"
   },
   "dependencies": {
-    "@lit-labs/preact-signals": "1.0.2",
-    "lit": "3.2.1"
+    "@lit-labs/signals": "0.1.1",
+    "lit": "3.2.1",
+    "signal-utils": "0.20.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.2",

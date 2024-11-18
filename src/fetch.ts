@@ -1,8 +1,9 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SignalWatcher, Signal, effect } from '@lit-labs/preact-signals';
+import { Signal, SignalWatcher } from '@lit-labs/signals';
 import { getSignal, State, doFetch } from './utils';
 import { map } from 'lit/directives/map.js';
+import { batchedEffect } from 'signal-utils/subtle/batched-effect';
 
 /**
  * Fetch data from a URL and store it in a signal.
@@ -60,10 +61,10 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
   })
   lineMax: number = 100;
 
-  emitSignal?: Signal<number>;
-  triggerSignal?: Signal<number>;
-  dataSignal?: Signal;
-  stateSignal?: Signal<State>;
+  emitSignal?: Signal.State<number>;
+  triggerSignal?: Signal.State<number>;
+  dataSignal?: Signal.State<any>;
+  stateSignal?: Signal.State<State>;
 
   lastTrigger: number = 0;
   linesLength: number[] = [];
@@ -76,12 +77,12 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     }
 
     this.emitSignal = getSignal(this.emit);
-    this.emitSignal.value = 0;
+    this.emitSignal.set(0);
     this.triggerSignal = getSignal(this.trigger);
-    this.triggerSignal.value = this.lastTrigger;
+    this.triggerSignal.set(this.lastTrigger);
     this.dataSignal = getSignal(this.data);
     this.stateSignal = getSignal(this.state);
-    this.stateSignal.value = State.Loading;
+    this.stateSignal.set(State.Loading);
 
     this.linesLength = Array.from({ length: this.lines }, () => {
       return Math.floor(Math.random() * (this.lineMax - this.lineMin) + this.lineMin);
@@ -90,16 +91,16 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
 
     doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
 
-    effect(() => {
-      if (this.triggerSignal?.value === this.lastTrigger) {
+    batchedEffect(() => {
+      if (this.triggerSignal?.get() === this.lastTrigger) {
         return;
       }
-      this.lastTrigger = this.triggerSignal?.value ?? 0;
+      this.lastTrigger = this.triggerSignal?.get() ?? 0;
       if (this.stateSignal) {
-        if (this.stateSignal.value === State.Loading || this.stateSignal.value === State.Reloading) {
+        if (this.stateSignal.get() === State.Loading || this.stateSignal.get() === State.Reloading) {
           return;
         }
-        this.stateSignal.value = State.Reloading;
+        this.stateSignal.set(State.Reloading);
       }
       if (this.dataSignal && this.emitSignal) {
         doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
@@ -109,7 +110,7 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     if (this.interval > 0) {
       setInterval(() => {
         if (this.stateSignal) {
-          this.stateSignal.value = State.Reloading;
+          this.stateSignal.set(State.Reloading);
         }
         if (this.dataSignal && this.emitSignal) {
           doFetch(this.url, this.dataSignal, this.emitSignal, this.stateSignal);
@@ -130,10 +131,10 @@ export default class AdminFetch extends SignalWatcher(LitElement) {
     }
   `;
   render() {
-    if (this.stateSignal?.value === State.Error) {
+    if (this.stateSignal?.get() === State.Error) {
       return html`<div>Error</div>`;
     }
-    if (this.stateSignal?.value === State.Loading) {
+    if (this.stateSignal?.get() === State.Loading) {
       return map(
         this.linesLength,
         (length) => html`<p aria-hidden="true" class="placeholder" style="width: ${length}%;"></p>`,

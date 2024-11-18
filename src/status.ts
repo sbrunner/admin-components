@@ -1,6 +1,6 @@
 import { LitElement, css, html, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
+import { Signal, SignalWatcher } from '@lit-labs/signals';
 import { getSignal, State } from './utils';
 
 const converter = {
@@ -18,7 +18,7 @@ const converter = {
 @customElement('admin-status')
 export default class Status extends SignalWatcher(LitElement) {
   @property()
-  state: string | Signal<State> = '';
+  state: string | Signal.State<State> = '';
   @property({
     converter,
   })
@@ -36,7 +36,7 @@ export default class Status extends SignalWatcher(LitElement) {
   })
   noEmpty: boolean = false;
 
-  stateSignal?: Signal<State>;
+  stateSignal?: Signal.State<State>;
 
   connectedCallback() {
     super.connectedCallback();
@@ -119,15 +119,15 @@ height="1em"
     if (!this.stateSignal) {
       return html``;
     }
-    if (this.loading.includes(this.stateSignal.value)) {
+    if (this.loading.includes(this.stateSignal.get())) {
       return html`<span class="root"
         ><span class="loading">${this.loadingSvg}<span></span></span
       ></span>`;
     }
-    if (this.error.includes(this.stateSignal.value)) {
+    if (this.error.includes(this.stateSignal.get())) {
       return html`<span class="root"><span class="error">${this.errorSvg}</span></span>`;
     }
-    if (this.success.includes(this.stateSignal.value)) {
+    if (this.success.includes(this.stateSignal.get())) {
       return html`<span class="root"><span class="success">${this.successSvg}</span></span>`;
     }
     if (this.noEmpty) {

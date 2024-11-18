@@ -25,7 +25,7 @@ import Spinner from './status.js';
 import Form from './form.js';
 import Element from './element.js';
 
-import { SignalWatcher, signal } from '@lit-labs/preact-signals';
+import { SignalWatcher, signal } from '@lit-labs/signals';
 
 // To force to be included in the bundle
 console.log(Fetch, Link, Spinner);
