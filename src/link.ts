@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
+import { Signal, SignalWatcher } from '@lit-labs/signals';
 import { getSignal, doFetch, State } from './utils';
 import { unsafeHTML, UnsafeHTMLDirective } from 'lit/directives/unsafe-html.js';
 import { DirectiveResult } from 'lit/async-directive.js';
@@ -24,9 +24,9 @@ export default class Link extends SignalWatcher(LitElement) {
   @property()
   state: string = '';
 
-  dataSignal?: Signal;
-  emitSignal?: Signal<number>;
-  stateSignal?: Signal<State>;
+  dataSignal?: Signal.State<any>;
+  emitSignal?: Signal.State<number>;
+  stateSignal?: Signal.State<State>;
   innerContent?: DirectiveResult<typeof UnsafeHTMLDirective> = html``;
 
   connectedCallback() {
@@ -47,11 +47,11 @@ export default class Link extends SignalWatcher(LitElement) {
     event.preventDefault();
     if (this.href === '#') {
       if (this.emitSignal) {
-        this.emitSignal.value = this.emitSignal.value + 1;
+        this.emitSignal.set(this.emitSignal.get() + 1);
       }
     } else {
       if (this.stateSignal) {
-        this.stateSignal.value = State.Loading;
+        this.stateSignal.set(State.Loading);
       }
       if (this.dataSignal && this.emitSignal) {
         doFetch(this.href, this.dataSignal, this.emitSignal, this.stateSignal);

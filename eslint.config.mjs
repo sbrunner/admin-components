@@ -28,6 +28,10 @@ export default [
 
             parser: tsParser,
         },
+
+        rules: {
+            '@typescript-eslint/no-explicit-any': 'off',
+        },
     },
     {
         files: ['src/*.ts', 'src/**/*.ts'],

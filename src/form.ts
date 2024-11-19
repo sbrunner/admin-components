@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Signal, SignalWatcher } from '@lit-labs/preact-signals';
+import { Signal, SignalWatcher } from '@lit-labs/signals';
 import { getSignal, doFetch, State } from './utils';
 import { map } from 'lit/directives/map.js';
 
@@ -30,9 +30,9 @@ export default class Link extends SignalWatcher(LitElement) {
   @property()
   state: string = '';
 
-  dataSignal?: Signal;
-  emitSignal?: Signal<number>;
-  stateSignal?: Signal<State>;
+  dataSignal?: Signal.State<any>;
+  emitSignal?: Signal.State<number>;
+  stateSignal?: Signal.State<State>;
   config?: FormConfig;
 
   connectedCallback() {
@@ -61,7 +61,7 @@ export default class Link extends SignalWatcher(LitElement) {
   handleSubmit(event: Event) {
     event.preventDefault();
     if (this.stateSignal) {
-      this.stateSignal.value = State.Loading;
+      this.stateSignal.set(State.Loading);
     }
     const form = this.getElementsByTagName('form')[0];
     const jsonData = this.getJsonData(form);
