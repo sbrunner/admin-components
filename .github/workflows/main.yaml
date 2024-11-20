@@ -8,6 +8,10 @@ on:
       - '*'
   pull_request:
 
+permissions:
+  # To publish package pkg.github.com
+  packages: write
+
 jobs:
   pre-commit:
     name: Pre-commit
@@ -18,7 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: echo "${HOME}/.local/bin" >> ${GITHUB_PATH}
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'
       - run: python3 -m pip install --user --requirement=.github/requirements.txt
 
       - uses: actions/cache@v4
@@ -73,7 +79,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - run: npm install
       - run: npm run check
       - run: npm run lint
       - run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'
+      - run: python3 -m pip install --user --requirement=.github/requirements.txt
+
+      - name: Publish
+        run: tag-publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
