@@ -6,6 +6,10 @@
     "name": "Stéphane Brunner",
     "email": "stephane.brunner@camptocamp.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sbrunner/admin-components"
+  },
   "license": "BSD-2-Clause",
   "scripts": {
     "dev": "vite",
