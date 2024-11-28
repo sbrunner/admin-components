@@ -3,3 +3,8 @@
 node:
   packages:
     - {}
+  repositories:
+    github:
+      host: npm.pkg.github.com
+    npm:
+      host: registry.npmjs.org

@@ -90,6 +90,7 @@ jobs:
           python-version: '3.13'
       - run: python3 -m pip install --user --requirement=.github/requirements.txt
 
+      - run: npm set "//registry.npmjs.org/:_authToken=${{ secrets.NODE_AUTH_TOKEN }}"
       - name: Publish
         run: tag-publish
         env:
