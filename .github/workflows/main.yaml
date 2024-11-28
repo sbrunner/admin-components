@@ -11,6 +11,8 @@ on:
 permissions:
   # To publish package pkg.github.com
   packages: write
+  # To publish package npmjs.org with provenance
+  id-token: write
 
 jobs:
   pre-commit:
