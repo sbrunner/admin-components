@@ -3,8 +3,10 @@
 node:
   packages:
     - {}
-  repositories:
+  repository:
     github:
       host: npm.pkg.github.com
     npm:
       host: registry.npmjs.org
+dispatch:
+  - {}
