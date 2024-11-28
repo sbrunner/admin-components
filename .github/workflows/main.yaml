@@ -13,6 +13,8 @@ permissions:
   packages: write
   # To publish package npmjs.org with provenance
   id-token: write
+  # To be able to send a dispatch event
+  contents: write
 
 jobs:
   pre-commit:
