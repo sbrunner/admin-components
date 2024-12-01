@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
       - run: python3 -m pip install --user --requirement=.github/requirements.txt
@@ -89,7 +89,7 @@ jobs:
       - run: npm run lint
       - run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
       - run: python3 -m pip install --user --requirement=.github/requirements.txt
