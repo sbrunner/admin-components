@@ -5,6 +5,10 @@
 Provide some component to build admin or technical interface, where we don't want to setup a JavaScript build,
 to add some interactivity to the page.
 
+## Examples
+
+StroyBook available in [Chromatic](https://66f96ae1df9a2e46226b9fe8-nxwnsqmwzm.chromatic.com).
+
 ## Components
 
 ### `<admin-fetch>`
