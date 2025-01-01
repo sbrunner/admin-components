@@ -28,23 +28,23 @@
     "signal-utils": "0.20.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "3.2.2",
-    "@storybook/addon-essentials": "8.4.6",
-    "@storybook/addon-links": "8.4.6",
-    "@storybook/blocks": "8.4.6",
-    "@storybook/test": "8.4.6",
-    "@storybook/web-components": "8.4.6",
-    "@storybook/web-components-vite": "8.4.6",
+    "@chromatic-com/storybook": "3.2.3",
+    "@storybook/addon-essentials": "8.4.7",
+    "@storybook/addon-links": "8.4.7",
+    "@storybook/blocks": "8.4.7",
+    "@storybook/test": "8.4.7",
+    "@storybook/web-components": "8.4.7",
+    "@storybook/web-components-vite": "8.4.7",
     "@typescript-eslint/eslint-plugin": "8.17.0",
     "@typescript-eslint/parser": "8.17.0",
-    "chromatic": "11.20.0",
+    "chromatic": "11.20.2",
     "eslint": "9.16.0",
     "eslint-plugin-storybook": "0.11.1",
-    "hast-util-to-html": "9.0.3",
+    "hast-util-to-html": "9.0.4",
     "lowlight": "3.2.0",
-    "storybook": "8.4.6",
+    "storybook": "8.4.7",
     "typescript": "5.7.2",
-    "vite": "6.0.1"
+    "vite": "6.0.6"
   },
   "eslintConfig": {
     "extends": [
