@@ -43,7 +43,7 @@
     "hast-util-to-html": "9.0.5",
     "lowlight": "3.3.0",
     "storybook": "8.6.3",
-    "typescript": "5.8.2",
+    "typescript": "5.7.3",
     "vite": "6.2.0"
   },
   "eslintConfig": {

@@ -22,6 +22,9 @@ jobs:
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
+    outputs:
+      success: ${{ steps.success.outputs.success }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -48,11 +51,17 @@ jobs:
       - name: Print environment information
         run: c2cciutils-env
 
+      - id: success
+        run: echo "::set-output name=success::true"
+
   auto-upgrade:
     name: Auto-upgrade
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
+
+    outputs:
+      success: ${{ steps.success.outputs.success }}
 
     steps:
       - uses: actions/checkout@v4
@@ -61,7 +70,7 @@ jobs:
       - run: npm run upgrade-storybook
       - run: sed --in-place 's/\"^/\"/g' package.json
       - run: npm install --package-lock-only
-      - run: git diff --exit-code --patch > /tmp/auto-upgrade.patch
+      - run: git diff --exit-code --patch > /tmp/auto-upgrade.patch; git diff --color; git reset --hard || true
       - uses: actions/upload-artifact@v4
         with:
           name: Storybook automatic migration.patch
@@ -69,14 +78,17 @@ jobs:
           retention-days: 1
         if: failure()
 
+      - id: success
+        run: echo "::set-output name=success::true"
+
   main:
     name: Continuous integration
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
-    needs:
-      - pre-commit
-      - auto-upgrade
+
+    outputs:
+      success: ${{ steps.success.outputs.success }}
 
     steps:
       - uses: actions/checkout@v4
@@ -98,7 +110,7 @@ jobs:
         run: tag-publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch || true
+      - run: git diff --exit-code --patch > /tmp/dpkg-versions.patch; git diff --color; git reset --hard || true
         if: failure()
       - uses: actions/upload-artifact@v4.6.1
         with:
@@ -106,3 +118,22 @@ jobs:
           path: /tmp/dpkg-versions.patch
           retention-days: 1
         if: failure()
+
+      - id: success
+        run: echo "::set-output name=success::true"
+
+  success:
+    name: Success
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    needs:
+      - pre-commit
+      - auto-upgrade
+      - main
+    if: always()
+
+    steps:
+      - run: '[[ "${{ needs.pre-commit.outputs.success }}" == "true" ]]'
+      - run: '[[ "${{ needs.auto-upgrade.outputs.success }}" == "true" ]]'
+      - run: '[[ "${{ needs.main.outputs.success }}" == "true" ]]'
+      - run: echo "Success"
