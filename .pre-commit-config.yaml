@@ -12,7 +12,7 @@ repos:
       - id: check-toml
       - id: check-yaml
       - id: check-json
-        exclude: |
+        exclude: |-
           (?x)^(
             tsconfig\.json
           )$
@@ -23,7 +23,7 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        exclude: |
+        exclude: |-
           (?x)^(
             package-lock\.json
           )$
