@@ -28,7 +28,7 @@
     "signal-utils": "0.21.1"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "3.2.6",
+    "@chromatic-com/storybook": "4.0.1",
     "@storybook/addon-essentials": "8.6.14",
     "@storybook/addon-links": "8.6.14",
     "@storybook/blocks": "8.6.14",
