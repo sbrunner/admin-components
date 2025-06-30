@@ -1,0 +1,10 @@
+/.github
+/.storybook
+/.editorconfig
+/.pre-commit-config.yaml
+/eslint.config.mjs
+/index.html
+/README.md
+/tsconfig.json
+/vite.config.ts
+/src/data
