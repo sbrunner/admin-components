@@ -2,6 +2,7 @@
   "name": "@sbrunner/admin-components",
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/main.js",
   "author": {
     "name": "Stéphane Brunner",
     "email": "stephane.brunner@camptocamp.com"
