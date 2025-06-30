@@ -5,6 +5,17 @@
 Provide some component to build admin or technical interface, where we don't want to setup a JavaScript build,
 to add some interactivity to the page.
 
+To use it from a CDN add at the end of your HTML file:
+
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@sbrunner/admin-components@<ref>/dist/main.js"
+></script>
+```
+
+`<ref>` should be replaced by the version you want to use, for example `0.6.1`.
+
 ## Examples
 
 StroyBook available in [Chromatic](https://66f96ae1df9a2e46226b9fe8-nxwnsqmwzm.chromatic.com).
