@@ -135,7 +135,7 @@ Example of one line form:
 ```javascript
 class MyElement extends window.admin.Element {
   render() {
-    const data = this.dataSignal.value;
+    const data = this.dataSignal.get();
 
     return window.lit.map(data.attribute, (item) => window.lit.html\` <p>\${item?.name}: \${item?.value}</p> \`);
   }
