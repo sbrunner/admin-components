@@ -33,16 +33,23 @@ export function doFetch(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any = null,
 ) {
+  let requestUrl = url;
+  if (method === 'GET' && data !== null) {
+    const urlObj = new URL(requestUrl, window.location.origin);
+    urlObj.search = new URLSearchParams(data).toString();
+    requestUrl = urlObj.toString();
+  }
+
   const options: RequestInit = {
     method: method,
   };
-  if (data !== null) {
+  if (method !== 'GET' && data !== null) {
     options.headers = {
       'Content-Type': 'application/json',
     };
     options.body = JSON.stringify(data);
   }
-  fetch(url, options).then(
+  fetch(requestUrl, options).then(
     (response) => {
       if (!response.ok) {
         console.error('HTTP error on fetching', response);
