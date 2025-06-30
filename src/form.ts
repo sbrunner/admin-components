@@ -71,7 +71,7 @@ export default class Link extends SignalWatcher(LitElement) {
         this.dataSignal,
         this.emitSignal,
         this.stateSignal,
-        'POST',
+        (form.getAttribute('method') || 'POST').toUpperCase(),
         jsonData,
       );
     }
