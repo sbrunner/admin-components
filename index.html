@@ -37,7 +37,7 @@
          */
         class MyElement extends window.admin.Element {
           render() {
-            const data = this.dataSignal.value;
+            const data = this.dataSignal.get();
 
             return data
               ? window.lit.map(

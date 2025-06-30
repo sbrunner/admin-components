@@ -31,7 +31,7 @@ const myElementString = `
       if (!this.dataSignal) {
         return window.lit.html\`<p>No data</p>\`;
       }
-      const data = this.dataSignal.value;
+      const data = this.dataSignal.get();
 
       return data ? window.lit.map(data.attribute, (item) => window.lit.html\` <p>\${item?.name}: \${item?.value}</p> \`) : window.lit.html\`\`;
     }
