@@ -38,7 +38,7 @@
     "@storybook/web-components-vite": "8.6.14",
     "@typescript-eslint/eslint-plugin": "8.33.0",
     "@typescript-eslint/parser": "8.33.0",
-    "chromatic": "12.0.0",
+    "chromatic": "13.0.1",
     "eslint": "9.28.0",
     "eslint-plugin-storybook": "0.12.0",
     "hast-util-to-html": "9.0.5",
