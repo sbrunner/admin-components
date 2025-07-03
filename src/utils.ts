@@ -24,6 +24,21 @@ export enum State {
   Error = 'error',
 }
 
+function handleError(
+  error: any,
+  emitSignal: Signal.State<number>,
+  stateSignal?: Signal.State<State>,
+  options: { emitOnError?: boolean } = {},
+) {
+  console.error('Error on parsing', error);
+  batch(() => {
+    stateSignal?.set(State.Error);
+    if (options.emitOnError) {
+      emitSignal.set(emitSignal.get() + 1);
+    }
+  });
+}
+
 export function doFetch(
   url: string,
   dataSignal: Signal.State<any>,
@@ -32,6 +47,7 @@ export function doFetch(
   method: string = 'GET',
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any = null,
+  options: { emitOnError?: boolean; dataOnError?: boolean } = {},
 ) {
   let requestUrl = url;
   if (method === 'GET' && data !== null) {
@@ -40,47 +56,65 @@ export function doFetch(
     requestUrl = urlObj.toString();
   }
 
-  const options: RequestInit = {
+  const requestOptions: RequestInit = {
     method: method,
   };
   if (method !== 'GET' && data !== null) {
-    options.headers = {
+    requestOptions.headers = {
       'Content-Type': 'application/json',
     };
-    options.body = JSON.stringify(data);
+    requestOptions.body = JSON.stringify(data);
   }
-  fetch(requestUrl, options).then(
+  fetch(requestUrl, requestOptions).then(
     (response) => {
       if (!response.ok) {
         console.error('HTTP error on fetching', response);
-        if (stateSignal != undefined) {
-          stateSignal.set(State.Error);
+        if (options.dataOnError) {
+          response.json().then(
+            (data) => {
+              batch(() => {
+                stateSignal?.set(State.Error);
+                if (options.emitOnError) {
+                  emitSignal.set(emitSignal.get() + 1);
+                }
+                dataSignal.set(data);
+              });
+            },
+            (error) => {
+              handleError(error, emitSignal, stateSignal, options);
+            },
+          );
+        } else {
+          batch(() => {
+            stateSignal?.set(State.Error);
+            if (options.emitOnError) {
+              emitSignal.set(emitSignal.get() + 1);
+            }
+          });
         }
       } else {
         response.json().then(
           (data) => {
             batch(() => {
               dataSignal.set(data);
-              if (stateSignal != undefined) {
-                stateSignal.set(State.Success);
-              }
+              stateSignal?.set(State.Success);
               emitSignal.set(emitSignal.get() + 1);
             });
           },
           (error) => {
-            console.error('Error on parsing', error);
-            if (stateSignal != undefined) {
-              stateSignal.set(State.Error);
-            }
+            handleError(error, emitSignal, stateSignal, options);
           },
         );
       }
     },
     (error) => {
       console.error('Error on fetching', error);
-      if (stateSignal != undefined) {
-        stateSignal.set(State.Error);
-      }
+      batch(() => {
+        stateSignal?.set(State.Error);
+        if (options.emitOnError) {
+          emitSignal.set(emitSignal.get() + 1);
+        }
+      });
     },
   );
 }

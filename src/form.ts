@@ -29,6 +29,10 @@ export default class Link extends SignalWatcher(LitElement) {
   emit: string = '';
   @property()
   state: string = '';
+  @property({ type: Boolean })
+  emitOnError: boolean = false;
+  @property({ type: Boolean })
+  dataOnError: boolean = false;
 
   dataSignal?: Signal.State<any>;
   emitSignal?: Signal.State<number>;
@@ -73,6 +77,10 @@ export default class Link extends SignalWatcher(LitElement) {
         this.stateSignal,
         (form.getAttribute('method') || 'POST').toUpperCase(),
         jsonData,
+        {
+          emitOnError: this.emitOnError,
+          dataOnError: this.dataOnError,
+        },
       );
     }
   }
