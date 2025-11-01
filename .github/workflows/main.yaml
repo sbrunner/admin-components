@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - run: python3 -m pip install --requirement=.github/requirements.txt
 
       - uses: actions/cache@v4
@@ -102,7 +102,7 @@ jobs:
 
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
       - run: python3 -m pip install --requirement=.github/requirements.txt
 
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NODE_AUTH_TOKEN }}" >> ~/.npmrc
