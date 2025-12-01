@@ -26,7 +26,7 @@ jobs:
       success: ${{ steps.success.outputs.success }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-python@v6
         with:
@@ -64,7 +64,7 @@ jobs:
       success: ${{ steps.success.outputs.success }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - run: npm install
       - run: npm run upgrade-storybook
@@ -91,7 +91,7 @@ jobs:
       success: ${{ steps.success.outputs.success }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
