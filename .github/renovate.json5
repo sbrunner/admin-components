@@ -14,7 +14,12 @@
   packageRules: [
     {
       groupName: 'Storybook',
-      matchPackagePatterns: ['^@storybook/', '^@chromatic-com/storybook$', '^storybook$'],
+      matchPackageNames: [
+        '/^@storybook\\//',
+        '@chromatic-com/storybook',
+        'storybook',
+        'eslint-plugin-storybook',
+      ],
     },
   ],
 }
