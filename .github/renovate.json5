@@ -11,4 +11,10 @@
     'github>camptocamp/gs-renovate-config-preset:own.json5#1.7.0',
   ],
   separateMultipleMajor: true,
+  packageRules: [
+    {
+      groupName: 'Storybook',
+      matchPackagePatterns: ['^@storybook/', '^@chromatic-com/storybook$', '^storybook$'],
+    },
+  ],
 }
