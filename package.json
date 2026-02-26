@@ -40,7 +40,7 @@
     "eslint-plugin-storybook": "10.2.3",
     "hast-util-to-html": "9.0.5",
     "lowlight": "3.3.0",
-    "storybook": "10.2.3",
+    "storybook": "10.2.10",
     "typescript": "5.9.3",
     "vite": "7.3.1"
   },
