@@ -42,7 +42,7 @@
     "lowlight": "3.3.0",
     "storybook": "10.2.13",
     "typescript": "5.9.3",
-    "vite": "7.3.1"
+    "vite": "8.0.2"
   },
   "eslintConfig": {
     "extends": [
