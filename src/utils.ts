@@ -45,7 +45,6 @@ export function doFetch(
   emitSignal: Signal.State<number>,
   stateSignal?: Signal.State<State>,
   method: string = 'GET',
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any = null,
   options: { emitOnError?: boolean; dataOnError?: boolean } = {},
 ) {

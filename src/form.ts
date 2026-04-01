@@ -51,10 +51,8 @@ export default class Link extends SignalWatcher(LitElement) {
     return this;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getJsonData(form: HTMLFormElement): { [id: string]: any } {
     const data = new FormData(form);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const jsonData: { [id: string]: any } = {};
     data.forEach((value, key) => {
       jsonData[key] = value;
