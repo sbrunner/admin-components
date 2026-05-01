@@ -32,21 +32,43 @@ jobs:
             || github.event.pull_request.user.login == 'geo-ghci[bot]')
         with:
           script: |-
-            github.rest.pulls.createReview({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              event: 'APPROVE',
-            })
+            try {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                event: 'APPROVE',
+              });
+            } catch (error) {
+              if (
+                error?.status === 422
+                && (error?.message || '').includes('not permitted to approve pull requests')
+              ) {
+                core.notice('Auto-approval skipped: GitHub Actions is not allowed to approve pull requests.');
+              } else {
+                throw error;
+              }
+            }
       - name: Auto reviews Renovate updates
         uses: actions/github-script@v9
         if: |-
           github.event.pull_request.user.login == 'renovate[bot]'
         with:
           script: |-
-            github.rest.pulls.createReview({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number,
-              event: 'APPROVE',
-            })
+            try {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                event: 'APPROVE',
+              });
+            } catch (error) {
+              if (
+                error?.status === 422
+                && (error?.message || '').includes('not permitted to approve pull requests')
+              ) {
+                core.notice('Auto-approval skipped: GitHub Actions is not allowed to approve pull requests.');
+              } else {
+                throw error;
+              }
+            }
