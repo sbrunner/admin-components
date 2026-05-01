@@ -66,11 +66,17 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - run: npm install
+      - run: npm install --ignore-scripts
+      - run: git add package-lock.json && git -c user.name='Auto Upgrade' -c user.email='auto-upgrade@users.noreply.github.com' commit --allow-empty --message='Temporary package-lock baseline'
+      - run: npm install --ignore-scripts
       - run: npm run upgrade-storybook
       - run: sed --in-place 's/\"^/\"/g' package.json
-      - run: npm install --package-lock-only
+      - run: npm install --package-lock-only --ignore-scripts
+      - run: git diff --exit-code --patch
+      - run: git reset --mixed HEAD^
+        if: failure()
       - run: git diff --exit-code --patch > /tmp/auto-upgrade.patch; git diff --color; git reset --hard || true
+        if: failure()
       - uses: actions/upload-artifact@v7
         with:
           name: Storybook automatic migration.patch
