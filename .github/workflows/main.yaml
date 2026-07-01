@@ -26,7 +26,7 @@ jobs:
       success: ${{ steps.success.outputs.success }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - uses: actions/setup-python@v6
         with:
@@ -64,7 +64,7 @@ jobs:
       success: ${{ steps.success.outputs.success }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - run: npm install --ignore-scripts
       - run: git add package-lock.json && git -c user.name='Auto Upgrade' -c user.email='auto-upgrade@users.noreply.github.com' commit --allow-empty --message='Temporary package-lock baseline'
@@ -97,7 +97,7 @@ jobs:
       success: ${{ steps.success.outputs.success }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
 
