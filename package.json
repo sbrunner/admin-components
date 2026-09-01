@@ -40,7 +40,7 @@
     "chromatic": "18.1.0",
     "eslint": "10.8.0",
     "eslint-plugin-storybook": "10.5.4",
-    "globals": "17.7.0",
+    "globals": "17.11.0",
     "hast-util-to-html": "9.0.5",
     "lowlight": "3.3.0",
     "storybook": "10.5.4",
