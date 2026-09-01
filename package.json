@@ -33,19 +33,19 @@
     "@storybook/addon-links": "10.5.10",
     "@storybook/web-components": "10.5.10",
     "@storybook/web-components-vite": "10.5.10",
-    "@typescript-eslint/eslint-plugin": "8.66.0",
-    "@typescript-eslint/parser": "8.66.0",
+    "@typescript-eslint/eslint-plugin": "8.68.0",
+    "@typescript-eslint/parser": "8.68.0",
     "@eslint/js": "10.0.1",
     "@eslint/eslintrc": "3.3.6",
-    "chromatic": "18.1.0",
-    "eslint": "10.8.0",
+    "chromatic": "18.5.0",
+    "eslint": "10.9.1",
     "eslint-plugin-storybook": "10.5.10",
     "globals": "17.11.0",
     "hast-util-to-html": "9.0.5",
     "lowlight": "3.3.0",
     "storybook": "10.5.10",
-    "typescript": "6.0.3",
-    "vite": "8.2.0"
+    "typescript": "7.0.2",
+    "vite": "8.2.2"
   },
   "eslintConfig": {
     "extends": [
