@@ -18,7 +18,7 @@ permissions:
 jobs:
   pre-commit:
     name: Pre-commit
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
@@ -56,7 +56,7 @@ jobs:
 
   auto-upgrade:
     name: Auto-upgrade
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
@@ -89,7 +89,7 @@ jobs:
 
   main:
     name: Continuous integration
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 15
     if: "!startsWith(github.event.head_commit.message, '[skip ci] ')"
 
@@ -111,6 +111,18 @@ jobs:
           python-version: '3.14'
       - run: python3 -m pip install --requirement=.github/requirements.txt
 
+      # For the builds that are not published (all the version types but the tags), tag-publish only
+      # checks the package with `npm publish --dry-run`. Since npm 11 (Ubuntu 26.04) that dry-run is
+      # validated against the registry, so the 0.0.0 placeholder version of the package.json on the
+      # branches would be rejected (already published, and lower than the latest release).
+      # Check instead the version that comes just after the last released tag.
+      - name: Set an unpublished version for the npm publish check
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          lastTag=$(git describe --abbrev=0 --tags | sed --expression 's/^v//')
+          IFS=. read -r major minor patch <<<"${lastTag}"
+          npm version --no-git-tag-version --allow-same-version "${major}.${minor}.$((patch + 1))"
+
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NODE_AUTH_TOKEN }}" >> ~/.npmrc
       - name: Publish
         run: tag-publish
@@ -130,7 +142,7 @@ jobs:
 
   success:
     name: Success
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 2
     needs:
       - pre-commit
