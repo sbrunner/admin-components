@@ -139,7 +139,9 @@ jobs:
           cache-python: true
           python-version: '3.13'
 
-      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NODE_AUTH_TOKEN }}" >> ~/.npmrc
+      - run: echo "//registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - name: Publish
         run: uv run --locked --isolated --no-build --project=.github/publish tag-publish
         env:
