@@ -67,6 +67,10 @@ repos:
     rev: 1.9.0
     hooks:
       - id: copyright
+      - id: uv-lock
+        additional_dependencies:
+          - uv==0.13.5 # pypi
+        files: ^\.github/publish/pyproject\.toml$
       - id: npm-lock
       - id: canonicalize
   - repo: https://github.com/sbrunner/jsonschema-validator
